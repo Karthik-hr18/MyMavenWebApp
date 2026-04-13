@@ -1,14 +1,14 @@
 pipeline {
-    agent any
+    agent any  
 
     tools {
-        maven 'Maven'
+        maven 'Maven'  
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Karthik-hr18/MyMavenWebApp.git'
+                git branch: 'main', url: 'https://github.com/Karthik-hr18/MyMavenWebApp.git'
             }
         }
 
@@ -20,15 +20,15 @@ pipeline {
 
         stage('Archive') {
             steps {
-                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: 'target/*.war', fingerprint: true
             }
         }
 
         stage('Deploy') {
             steps {
-                sh 'java -jar target/*.jar'
+                sh 'mvn clean package'
             }
-        }
+        }    
     }
 
     post {
